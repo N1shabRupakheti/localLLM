@@ -202,194 +202,174 @@ export default function CallOpenAI() {
                             </div>
                         </div>
                     ) : (
-                        /* Conversation */
                         <div className="flex-1 space-y-8 pb-6">
-                            {prompt.map((p, i) => (
+                    {prompt.map((p, i) => (
+                        <div
+                            key={i}
+                            className={`flex gap-4 ${p.role === "user"
+                                ? "justify-end"
+                                : "justify-start"
+                                }`}
+                        >
+                            {p.role !== "user" && (
+                                <div className="shrink-0 w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-lg shadow-lg shadow-indigo-500/20">
+                                    ✦
+                                </div>
+                            )}
+
+                            <div
+                                className={`min-w-0 max-w-[85%] sm:max-w-[75%] ${p.role === "user" ? "text-right" : "text-left"
+                                    }`}
+                            >
+                                <div className="text-xs font-medium text-gray-500 mb-2 px-1">
+                                    {p.role === "user" ? "You" : "Gemini"}
+                                </div>
+
                                 <div
-                                    key={i}
-                                    className={`flex gap - 3 sm: gap - 4 ${p.role === "user"
-                                        ? "flex-row-reverse"
-                                        : "flex-row"
-                                        } `}
+                                    className={`inline-block text-left px-5 py-4 rounded-2xl ${p.role === "user"
+                                        ? "bg-gradient-to-br from-indigo-600 to-blue-600 text-white rounded-tr-md shadow-lg shadow-indigo-950/20"
+                                        : "bg-[#111522] border border-white/[0.08] text-gray-200 rounded-tl-md"
+                                        }`}
                                 >
-                                    {/* Avatar */}
-                                    <div
-                                        className={`shrink - 0 w - 9 h - 9 rounded - xl flex items - center justify - center text - lg ${p.role === "user"
-                                            ? "bg-white/10 border border-white/10"
-                                            : "bg-gradient-to-br from-blue-500 to-purple-600 shadow-lg shadow-indigo-500/10"
-                                            } `}
-                                    >
-                                        {p.role === "user" ? "👤" : "✦"}
-                                    </div>
-
-                                    {/* Message */}
-                                    <div
-                                        className={`min - w - 0 max - w - [88 %] sm: max - w - [80 %] ${p.role === "user" ? "items-end" : "items-start"
-                                            } flex flex - col`}
-                                    >
-                                        <div className="flex items-center gap-2 mb-2 px-1">
-                                            <span className="text-xs font-semibold text-gray-300">
-                                                {p.role === "user" ? "You" : "Gemini"}
-                                            </span>
-                                            {p.role !== "user" && (
-                                                <span className="text-[10px] text-indigo-300 bg-indigo-400/10 border border-indigo-400/10 px-2 py-0.5 rounded-full">
-                                                    AI
-                                                </span>
-                                            )}
+                                    {p.role === "user" ? (
+                                        <div className="whitespace-pre-wrap break-words leading-7 text-sm sm:text-base">
+                                            {p.content}
                                         </div>
-
-                                        <div
-                                            className={`w - full rounded - 2xl px - 4 sm: px - 5 py - 4 ${p.role === "user"
-                                                ? "bg-gradient-to-br from-indigo-600 to-blue-600 rounded-tr-sm shadow-lg shadow-indigo-900/20"
-                                                : "bg-white/[0.045] border border-white/[0.08] rounded-tl-sm backdrop-blur-xl"
-                                                } `}
-                                        >
-                                            {p.role === "user" ? (
-                                                <div className="whitespace-pre-wrap break-words leading-7 text-sm sm:text-[15px]">
-                                                    {p.content}
-                                                </div>
-                                            ) : (
-                                                <div className="prose prose-invert prose-sm max-w-none break-words leading-7 prose-headings:text-gray-100 prose-a:text-blue-300 prose-code:text-cyan-300 prose-pre:bg-black/30 prose-pre:border prose-pre:border-white/10">
-                                                    <ReactMarkdown
-                                                        components={{
-                                                            p: ({ node, ...props }) => {
-                                                                void node;
-                                                                return (
-                                                                    <p className="mb-3 last:mb-0 text-gray-200" {...props} />
-                                                                );
-                                                            },
-                                                            strong: ({ node, ...props }) => {
-                                                                void node;
-                                                                return <strong className="font-semibold text-white" {...props} />;
-                                                            },
-                                                            em: ({ node, ...props }) => {
-                                                                void node;
-                                                                return <em className="italic text-gray-300" {...props} />;
-                                                            },
-                                                            ul: ({ node, ...props }) => {
-                                                                void node;
-                                                                return <ul className="list-disc pl-5 mb-4 space-y-2 marker:text-indigo-400" {...props} />;
-                                                            },
-                                                            ol: ({ node, ...props }) => {
-                                                                void node;
-                                                                return <ol className="list-decimal pl-5 mb-4 space-y-2 marker:text-indigo-400" {...props} />;
-                                                            },
-                                                            h1: ({ node, ...props }) => {
-                                                                void node;
-                                                                return <h1 className="text-xl font-bold mt-5 mb-3" {...props} />;
-                                                            },
-                                                            h2: ({ node, ...props }) => {
-                                                                void node;
-                                                                return <h2 className="text-lg font-bold mt-5 mb-3" {...props} />;
-                                                            },
-                                                            h3: ({ node, ...props }) => {
-                                                                void node;
-                                                                return <h3 className="text-base font-semibold mt-4 mb-2" {...props} />;
-                                                            },
-                                                            blockquote: ({ node, ...props }) => {
-                                                                void node;
-                                                                return <blockquote className="border-l-2 border-indigo-400 pl-4 text-gray-400 italic" {...props} />;
-                                                            },
-                                                        }}
-                                                    >
-                                                        {p.content}
-                                                    </ReactMarkdown>
-                                                </div>
-                                            )}
+                                    ) : (
+                                        <div className="prose prose-invert prose-sm max-w-none break-words leading-7 prose-headings:text-gray-100 prose-strong:text-white prose-code:text-cyan-300 prose-pre:bg-black/30">
+                                            <ReactMarkdown
+                                                components={{
+                                                    p: ({ node, ...props }) => {
+                                                        void node;
+                                                        return (
+                                                            <p
+                                                                className="mb-3 last:mb-0"
+                                                                {...props}
+                                                            />
+                                                        );
+                                                    },
+                                                    strong: ({ node, ...props }) => {
+                                                        void node;
+                                                        return (
+                                                            <strong
+                                                                className="font-semibold text-white"
+                                                                {...props}
+                                                            />
+                                                        );
+                                                    },
+                                                    em: ({ node, ...props }) => {
+                                                        void node;
+                                                        return <em className="italic" {...props} />;
+                                                    },
+                                                    ul: ({ node, ...props }) => {
+                                                        void node;
+                                                        return (
+                                                            <ul
+                                                                className="list-disc pl-5 mb-3 space-y-2 marker:text-indigo-400"
+                                                                {...props}
+                                                            />
+                                                        );
+                                                    },
+                                                    ol: ({ node, ...props }) => {
+                                                        void node;
+                                                        return (
+                                                            <ol
+                                                                className="list-decimal pl-5 mb-3 space-y-2 marker:text-indigo-400"
+                                                                {...props}
+                                                            />
+                                                        );
+                                                    },
+                                                }}
+                                            >
+                                                {p.content}
+                                            </ReactMarkdown>
                                         </div>
-                                    </div>
+                                    )}
                                 </div>
-                            ))}
+                            </div>
+                        </div>
+                    ))}
 
-                            {/* Loading indicator */}
-                            {loading && (
-                                <div className="flex gap-3 sm:gap-4">
-                                    <div className="shrink-0 w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                                        <span>✦</span>
-                                    </div>
-                                    <div>
-                                        <div className="text-xs font-semibold text-gray-300 mb-3 px-1">
-                                            Gemini is thinking
-                                        </div>
-                                        <div className="flex items-center gap-1.5 px-4 py-4 rounded-2xl rounded-tl-sm bg-white/[0.045] border border-white/[0.08]">
-                                            <span className="w-2 h-2 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
-                                            <span className="w-2 h-2 bg-indigo-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
-                                            <span className="w-2 h-2 bg-purple-400 rounded-full animate-bounce" />
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+                    {loading && (
+                        <div className="flex items-center gap-4">
+                            <div className="w-9 h-9 shrink-0 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+                                ✦
+                            </div>
+                            <div className="flex items-center gap-1.5 bg-[#111522] border border-white/[0.08] rounded-2xl rounded-tl-md px-5 py-4">
+                                <span className="w-2 h-2 rounded-full bg-blue-400 animate-bounce [animation-delay:-0.3s]" />
+                                <span className="w-2 h-2 rounded-full bg-indigo-400 animate-bounce [animation-delay:-0.15s]" />
+                                <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" />
+                            </div>
+                        </div>
+                    )}
 
-                            {/* Error */}
-                            {error && (
-                                <div className="ml-12 rounded-xl border border-red-400/20 bg-red-500/[0.08] px-4 py-3 text-sm text-red-300">
-                                    <span className="mr-2">⚠️</span>
-                                    {error}
-                                </div>
-                            )}
+                    {error && (
+                        <div className="ml-12 rounded-xl border border-red-400/20 bg-red-500/[0.08] px-4 py-3 text-sm text-red-300">
+                            ⚠️ {error}
+                        </div>
+                    )}
                         </div>
                     )}
                 </main>
 
-                {/* Composer */}
                 <footer className="sticky bottom-0 pb-5 pt-3 bg-gradient-to-t from-[#080b14] via-[#080b14]/95 to-transparent">
-                    <form
-                        onSubmit={handleSubmit}
-                        className="relative max-w-4xl mx-auto"
+        <form
+            onSubmit={handleSubmit}
+            className="relative max-w-4xl mx-auto"
+        >
+            <div className="absolute -inset-[1px] rounded-[1.4rem] bg-gradient-to-r from-blue-500/50 via-indigo-500/50 to-purple-500/50 blur-sm opacity-50" />
+
+            <div className="relative rounded-[1.35rem] border border-white/10 bg-[#101421]/95 backdrop-blur-2xl shadow-2xl">
+                <textarea
+                    rows={1}
+                    placeholder="Ask anything... what's on your mind?"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                            e.preventDefault();
+                            if (!loading && input.trim()) {
+                                e.currentTarget.form?.requestSubmit();
+                            }
+                        }
+                    }}
+                    disabled={loading}
+                    className="w-full resize-none bg-transparent text-white placeholder-gray-500 px-5 pt-5 pb-3 outline-none text-sm sm:text-base min-h-[60px] max-h-40 disabled:opacity-50"
+                />
+
+                <div className="flex items-center justify-between gap-3 px-4 pb-3">
+                    <p className="text-[10px] sm:text-xs text-gray-600 pl-1">
+                        <span className="text-gray-500">↵</span> Send
+                        <span className="mx-2 text-gray-700">·</span>
+                        <span className="text-gray-500">⇧ ↵</span> New line
+                    </p>
+
+                    <button
+                        type="submit"
+                        disabled={loading || !input.trim()}
+                        className="group flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:from-blue-400 hover:via-indigo-400 hover:to-purple-400 disabled:from-gray-700 disabled:via-gray-700 disabled:to-gray-700 disabled:cursor-not-allowed text-white text-sm font-semibold px-5 py-3 transition-all duration-200 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-95"
                     >
-                        <div className="absolute -inset-[1px] rounded-[1.4rem] bg-gradient-to-r from-blue-500/50 via-indigo-500/50 to-purple-500/50 blur-sm opacity-50" />
+                        {loading ? (
+                            <>
+                                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                Thinking
+                            </>
+                        ) : (
+                            <>
+                                Send
+                                <span className="text-base group-hover:translate-x-0.5 transition-transform">
+                                    ↗
+                                </span>
+                            </>
+                        )}
+                    </button>
+                </div>
+            </div>
 
-                        <div className="relative rounded-[1.35rem] border border-white/10 bg-[#101421]/95 backdrop-blur-2xl shadow-2xl">
-                            <textarea
-                                rows={1}
-                                placeholder="Ask anything... what's on your mind?"
-                                value={input}
-                                onChange={(e) => setInput(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === "Enter" && !e.shiftKey) {
-                                        e.preventDefault();
-                                        if (!loading && input.trim()) {
-                                            e.currentTarget.form?.requestSubmit();
-                                        }
-                                    }
-                                }}
-                                disabled={loading}
-                                className="w-full resize-none bg-transparent text-white placeholder-gray-500 px-5 pt-5 pb-3 outline-none text-sm sm:text-base min-h-[60px] max-h-40 disabled:opacity-50"
-                            />
-
-                            <div className="flex items-center justify-between gap-3 px-4 pb-3">
-                                <p className="text-[10px] sm:text-xs text-gray-600 pl-1">
-                                    <span className="text-gray-500">↵</span> Send
-                                    <span className="mx-2 text-gray-700">·</span>
-                                    <span className="text-gray-500">⇧ ↵</span> New line
-                                </p>
-
-                                <button
-                                    type="submit"
-                                    disabled={loading || !input.trim()}
-                                    className="group flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 hover:from-blue-400 hover:via-indigo-400 hover:to-purple-400 disabled:from-gray-700 disabled:via-gray-700 disabled:to-gray-700 disabled:cursor-not-allowed text-white text-sm font-semibold px-5 py-3 transition-all duration-200 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-95"
-                                >
-                                    {loading ? (
-                                        <>
-                                            <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                            Thinking
-                                        </>
-                                    ) : (
-                                        <>
-                                            Send
-                                            <span className="text-base group-hover:translate-x-0.5 transition-transform">
-                                                ↗
-                                            </span>
-                                        </>
-                                    )}
-                                </button>
-                            </div>
-                        </div>
-
-                        <p className="text-center text-[10px] text-gray-600 mt-3">
-                            Powered by Gemini · AI can make mistakes, so double-check important information.
-                        </p>
-                    </form>
+            <p className="text-center text-[10px] text-gray-600 mt-3">
+                Powered by Gemini · AI can make mistakes, so double-check important information.
+            </p>
+        </form>
                 </footer>
             </div>
         </div>
